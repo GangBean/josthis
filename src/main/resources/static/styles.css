@@ -1,0 +1,32 @@
+/* table-style.css */
+
+/* 테이블 전체에 대한 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse; /* 테이블 셀 경계를 합칩니다. */
+    border: 1px solid #ccc; /* 테이블 주위에 경계선을 추가합니다. */
+}
+
+/* 테이블 헤더에 대한 스타일 */
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc; /* 셀 경계선을 추가합니다. */
+}
+
+/* 짝수 행에 대한 스타일 */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* 홀수 행에 대한 스타일 */
+tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+/* 테이블 셀에 대한 스타일 */
+td {
+    padding: 8px;
+    border: 1px solid #ccc; /* 셀 경계선을 추가합니다. */
+}
