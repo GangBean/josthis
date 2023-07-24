@@ -1,11 +1,11 @@
 package com.gangbean.josthis.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Getter
 @Entity
 public class Consensus extends BaseEntity {
     @Id
@@ -14,5 +14,6 @@ public class Consensus extends BaseEntity {
 
     private BigDecimal score;
 
+    @Enumerated(EnumType.STRING)
     private ConsensusType type;
 }

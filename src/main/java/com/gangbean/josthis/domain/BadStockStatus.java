@@ -1,6 +1,7 @@
 package com.gangbean.josthis.domain;
 
-public enum StockStatus {
+
+public enum BadStockStatus {
     SUSPENSION("매매거래정지"),
     CLEARANCE_SALE("정리매매"),
     IN_MANAGEMENT("관리종목"),
@@ -14,7 +15,7 @@ public enum StockStatus {
 
     private final String kor;
 
-    StockStatus(String kor) {
+    BadStockStatus(String kor) {
         this.kor = kor;
     }
 
