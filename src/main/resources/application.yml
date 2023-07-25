@@ -1,14 +1,13 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    url: jdbc:h2:mem:testdb
-  h2:
-    console:
-      enabled: true
-  profiles:
-    active:
+    username: xbox2537
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://josthis-db1.cplifuxv1ysv.ap-northeast-2.rds.amazonaws.com:3306/josthis
+
+  jpa:
+    hibernate:
+      ddl-auto: none # !!!!!!!!!!!!
 
 logging:
   level:
