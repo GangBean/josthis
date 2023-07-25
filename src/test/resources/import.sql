@@ -59,4 +59,3 @@ insert into stock(ticker_code, consensus_id, name) values('00000000000027', 27, 
 insert into stock(ticker_code, consensus_id, name) values('00000000000028', 28, '포스코28');
 insert into stock(ticker_code, consensus_id, name) values('00000000000029', 29, '포스코29');
 insert into stock(ticker_code, consensus_id, name) values('00000000000030', 30, '포스코30');
--
