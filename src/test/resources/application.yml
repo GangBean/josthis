@@ -12,8 +12,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
-  profiles:
-    active: "test"
+
   sql:
     init:
       mode: embedded
