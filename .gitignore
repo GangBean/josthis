@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### EC2 ssh private key ###
+*.pem
