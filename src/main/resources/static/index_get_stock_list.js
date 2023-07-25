@@ -37,7 +37,7 @@ function createTableFromJSON(data) {
 }
 
 // REST API 호출 후 JSON 데이터를 받아옵니다.
-fetch('http://localhost:8080/api/stocks') // 실제 REST API의 엔드포인트를 사용해야 합니다.
+fetch(window.location.origin + '/api/stocks') // 실제 REST API의 엔드포인트를 사용해야 합니다.
     .then(response => response.json())
     .then(data => createTableFromJSON(data))
     .catch(error => console.error('Error fetching data:', error));
