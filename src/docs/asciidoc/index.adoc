@@ -19,7 +19,10 @@ Josthis API docs
 | 항목 | 설명
 
 | 운영 서버 도메인
-| 'http://localhost:8080'
+| http://josthis.live
+
+| 운영 서버 IP
+| http://52.79.172.62
 
 |===
 
