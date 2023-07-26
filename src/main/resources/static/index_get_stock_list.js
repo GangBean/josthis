@@ -68,7 +68,16 @@ function fetchMoreData() {
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve(fetchData(MORE_STOCK_API_URL));
+            fetchData(MORE_STOCK_API_URL)
+                .then(data => {
+                    const tbody = document.querySelector('#stockTable tbody');
+                    createTableFromJSON(data);
+                    resolve();
+                })
+                .catch(error => {
+                    console.error('Failed to fetch more data:', error);
+                    reject()
+                });
         }, 1000); // 1초 후 데이터를 반환 (실제로는 서버에서 비동기로 데이터를 가져와야 함)
     });
 }
