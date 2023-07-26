@@ -61,9 +61,9 @@ function fetchMoreData() {
 
     if (rows != null) {
         const lastRow = rows[rows.length - 1];
-        const stockId= lastRow.querySelector('#stockId');
+        const stockId= lastRow.querySelector('#stockId').textContent;
         const consensusScore = lastRow.querySelector('#consensus').textContent.substring(0, 3);
-        MORE_STOCK_API_URL = MORE_STOCK_API_URL + '?EndScore=' + consensusScore + '&EndId=' + stockId;
+        MORE_STOCK_API_URL = MORE_STOCK_API_URL + '?lastScore=' + consensusScore + '&lastId=' + stockId;
     }
 
     return new Promise((resolve, reject) => {

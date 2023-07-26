@@ -24,8 +24,8 @@ public class StockController {
 
     @GetMapping("/stocks")
     public ResponseEntity<StockListResponse> getStockList(
-            @RequestParam(value = "EndScore", required = false) BigDecimal endScore,
-            @RequestParam(value = "EndId", required = false) Long endId) {
+            @RequestParam(value = "lastScore", required = false) BigDecimal endScore,
+            @RequestParam(value = "lastId", required = false) Long endId) {
         StockListResponse allStocks = stockService.allStocks(endScore, endId);
 
         return ResponseEntity.ok(allStocks);
