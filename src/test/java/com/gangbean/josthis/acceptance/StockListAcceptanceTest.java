@@ -4,7 +4,6 @@ import com.gangbean.josthis.repository.StockRepository;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,12 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -59,7 +55,7 @@ public class StockListAcceptanceTest {
     /**
      * given: 데이터베이스에 주식정보가 20개 넘게 존재하고
      * and: url이 존재하고
-     * and: 헤더에 컨센서스점수와 ID값이 넘어오면
+     * and: 파라미터로 컨센서스점수와 ID값이 넘어오면
      * when: 주식목록 조회 요청시
      * then: 헤더에 포함된 대상의 이후 주식 목록이 20개 조회됩니다.
      */
@@ -80,8 +76,8 @@ public class StockListAcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .spec(spec)
                 .contentType(ContentType.JSON)
-                .header(new Header("EndScore", prevConsensusScore.toPlainString()))
-                .header(new Header("EndId", String.valueOf(previousId)))
+                .param("EndScore", prevConsensusScore)
+                .param("EndId", previousId)
                 .when()
                 .get(url)
                 .then().log().all()
@@ -89,6 +85,7 @@ public class StockListAcceptanceTest {
 
         // then
         assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.jsonPath().getList("stocks.id", Long.class)).hasSize(20),
                 () -> assertThat(response.jsonPath().getList("stocks.id", Long.class)).doesNotContain(previousId),
                 () -> assertThat(response.jsonPath().getList("stocks.consensusScore", BigDecimal.class)
@@ -136,6 +133,7 @@ public class StockListAcceptanceTest {
         // then
         List<BigDecimal> consensusScoreList = response.jsonPath().getList("stocks.consensusScore", BigDecimal.class);
         assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.jsonPath().getList("stocks.id", Long.class)).hasSize(20),
                 () -> assertThat(consensusScoreList).isEqualTo(consensusScoreList.stream().sorted().collect(Collectors.toList()))
         );
