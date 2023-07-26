@@ -55,14 +55,14 @@ function fetchData(url) {
 
 // API를 호출하여 데이터를 가져오는 함수
 function fetchMoreData() {
-    let MORE_STOCK_API_URL = GET_STOCK_API_URL
-    const table = document.querySelector('#stockTable tbody')
+    let MORE_STOCK_API_URL = GET_STOCK_API_URL;
+    const table = document.querySelector('#stockTable tbody');
     const rows = table.getElementsByTagName('tr');
 
     if (rows != null) {
         const lastRow = rows[rows.length - 1];
         const stockId= lastRow.querySelector('#stockId');
-        const consensusScore = lastRow.querySelector('#consensus').substring(0, 3);
+        const consensusScore = lastRow.querySelector('#consensus').textContent.substring(0, 3);
         MORE_STOCK_API_URL = MORE_STOCK_API_URL + '?EndScore=' + consensusScore + '&EndId=' + stockId;
     }
 
