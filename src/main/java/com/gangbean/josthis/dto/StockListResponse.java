@@ -20,4 +20,12 @@ public class StockListResponse {
                 .map(StockResponse::responseFrom)
                 .collect(Collectors.toList()));
     }
+
+    public StockResponse lastStock() {
+        return stocks.isEmpty() ? null : stocks.get(stocks.size() - 1);
+    }
+
+    public boolean hasResponse() {
+        return !stocks.isEmpty();
+    }
 }

@@ -4,6 +4,7 @@ import com.gangbean.josthis.repository.StockRepository;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -53,6 +54,48 @@ public class StockListAcceptanceTest {
                 .setBaseUri("http://localhost")
                 .setPort(port)
                 .build();
+    }
+
+    /**
+     * given: 데이터베이스에 주식정보가 20개 넘게 존재하고
+     * and: url이 존재하고
+     * and: 헤더에 컨센서스점수와 ID값이 넘어오면
+     * when: 주식목록 조회 요청시
+     * then: 헤더에 포함된 대상의 이후 주식 목록이 20개 조회됩니다.
+     */
+    @DisplayName("주식목록조회_다음조회")
+    @Test
+    void getStockListNext() {
+        // given
+        assertThat(stockRepository.findAll()).hasSizeGreaterThan(20);
+
+        // and
+        final String url = "/api/stocks";
+
+        // and
+        final BigDecimal prevConsensusScore = new BigDecimal("1.2");
+        final Long previousId = 1L;
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .header(new Header("EndScore", prevConsensusScore.toPlainString()))
+                .header(new Header("EndId", String.valueOf(previousId)))
+                .when()
+                .get(url)
+                .then().log().all()
+                .extract();
+
+        // then
+        assertAll(
+                () -> assertThat(response.jsonPath().getList("stocks.id", Long.class)).hasSize(20),
+                () -> assertThat(response.jsonPath().getList("stocks.id", Long.class)).doesNotContain(previousId),
+                () -> assertThat(response.jsonPath().getList("stocks.consensusScore", BigDecimal.class)
+                        .stream()
+                        .filter(s -> s.compareTo(prevConsensusScore) < 0)
+                        .count()).isZero()
+        );
     }
 
     /**
