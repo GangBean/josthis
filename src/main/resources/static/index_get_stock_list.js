@@ -84,12 +84,30 @@ function fetchMoreData() {
     });
 }
 
+// 디바운스 함수 구현
+function debounce(func, delay) {
+    let timer;
+    let isFirstCall = true;
+
+    return function () {
+        if (isFirstCall) {
+            func.apply(this, arguments);
+            isFirstCall = false;
+        } else {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+            isFirstCall = true;
+        }, delay);
+    };
+}
+
 // 무한 스크롤 이벤트 핸들러
 let isFetching;
 function handleScroll() {
     const table = document.getElementById('stockTable');
     const tableBottom = table.getBoundingClientRect().bottom;
-
     const windowBottom = window.innerHeight;
     if (tableBottom <= windowBottom) {
         // 테이블의 하단이 화면의 하단에 도달하면 데이터를 추가로 로드
@@ -110,8 +128,10 @@ function handleScroll() {
     }
 }
 
+const debouncedScroll = debounce(handleScroll, 500);
+
 // 스크롤 이벤트 리스너 등록
-window.addEventListener('scroll', handleScroll);
+window.addEventListener('scroll', debouncedScroll);
 
 // 페이지 로드시 REST API 호출 후 JSON 데이터를 받아옵니다.
 fetchData(GET_STOCK_API_URL);
