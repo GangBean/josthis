@@ -59,7 +59,7 @@ function fetchMoreData() {
     const table = document.querySelector('#stockTable tbody');
     const rows = table.getElementsByTagName('tr');
 
-    if (rows != null) {
+    if (!rows) {
         const lastRow = rows[rows.length - 1];
         const stockId= lastRow.querySelector('#stockId').textContent;
         const consensusScore = lastRow.querySelector('#consensus').textContent.substring(0, 3);
@@ -90,15 +90,21 @@ function handleScroll() {
 
     if (tableBottom <= windowBottom) {
         // 테이블의 하단이 화면의 하단에 도달하면 데이터를 추가로 로드
-        fetchMoreData()
-            .then(data => {
-                // 가져온 데이터를 테이블에 동적으로 추가
-                const tbody = table.querySelector('tbody');
-                data.forEach(item => addNewRowToTable(item, tbody));
-            })
-            .catch(error => {
-                console.error('Failed to fetch more data:', error);
-            });
+        let timer;
+        if (!timer) {
+            timer = setTimeout(() => {
+                timer = null;
+                fetchMoreData()
+                    .then(data => {
+                        // 가져온 데이터를 테이블에 동적으로 추가
+                        const tbody = table.querySelector('tbody');
+                        data.forEach(item => addNewRowToTable(item, tbody));
+                    })
+                    .catch(error => {
+                        console.error('Failed to fetch more data:', error);
+                    });
+                }, 1000);
+        }
     }
 }
 
