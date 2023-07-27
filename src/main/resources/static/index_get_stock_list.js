@@ -88,9 +88,9 @@ function handleScroll() {
     const tableBottom = table.getBoundingClientRect().bottom;
     const windowBottom = window.innerHeight;
 
+    let timer;
     if (tableBottom <= windowBottom) {
         // 테이블의 하단이 화면의 하단에 도달하면 데이터를 추가로 로드
-        let timer;
         if (!timer) {
             timer = setTimeout(() => {
                 timer = null;
