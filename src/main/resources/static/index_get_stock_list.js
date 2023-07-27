@@ -3,10 +3,12 @@ const GET_STOCK_API_URL = window.location.origin + '/api/stocks'
 
 function createTableFromJSON(data) {
     const tableBody = document.querySelector('#stockTable tbody');
-    const stockArray = data.stocks;
+    const stockArray = data['stocks'];
 
     // JSON 데이터의 각 요소를 테이블 행으로 변환하여 추가합니다.
-    stockArray.forEach(item => addNewRowToTable(item, tableBody));
+    if (stockArray) {
+        stockArray.forEach(item => addNewRowToTable(item, tableBody));
+    }
 }
 
 function addNewRowToTable(item, tableBody) {
