@@ -17,6 +17,10 @@ spring:
     init:
       mode: embedded
 
+  batch:
+    job:
+      enabled: false
+
 logging:
   level:
     sql: debug

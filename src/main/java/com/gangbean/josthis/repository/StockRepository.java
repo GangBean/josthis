@@ -10,5 +10,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findTop20ByOrderByConsensusScoreAscIdAsc();
 
     List<Stock> findTop20ByConsensusScoreAndIdGreaterThanOrConsensusScoreGreaterThanOrderByConsensusScoreAscIdAsc
-            (BigDecimal prevScoreFirst, Long prevId, BigDecimal samePrevScore);
+            (BigDecimal prevScoreFirst, Long prevId, BigDecimal prevScore2);
 }
