@@ -3,7 +3,7 @@ const GET_STOCK_API_URL = window.location.origin + '/api/stocks'
 
 function createTableFromJSON(data) {
     const tableBody = document.querySelector('#stockTable tbody');
-    const stockArray = data['stocks'];
+    const stockArray = (data && 'stocks' in data) ? data['stocks'] : undefined;
 
     // JSON 데이터의 각 요소를 테이블 행으로 변환하여 추가합니다.
     if (stockArray) {
@@ -61,7 +61,7 @@ function fetchMoreData() {
     const table = document.querySelector('#stockTable tbody');
     const rows = table.getElementsByTagName('tr');
 
-    if (rows) {
+    if (rows && rows.length > 0) {
         const lastRow = rows[rows.length - 1];
         const stockId= lastRow.querySelector('#stockId').textContent;
         const consensusScore = lastRow.querySelector('#consensus').textContent.substring(0, 3);
@@ -72,7 +72,6 @@ function fetchMoreData() {
         setTimeout(() => {
             fetchData(MORE_STOCK_API_URL)
                 .then(data => {
-                    const tbody = document.querySelector('#stockTable tbody');
                     createTableFromJSON(data);
                     resolve();
                 })
@@ -89,14 +88,18 @@ function debounce(func, delay) {
     let timer;
     let isFirstCall = true;
 
+    console.log("1");
     return function () {
+        console.log("2")
         if (isFirstCall) {
+            console.log("3")
             func.apply(this, arguments);
             isFirstCall = false;
         } else {
+            console.log("4")
             clearTimeout(timer);
         }
-
+        console.log("5")
         timer = setTimeout(() => {
             isFirstCall = true;
         }, delay);
@@ -104,14 +107,16 @@ function debounce(func, delay) {
 }
 
 // 무한 스크롤 이벤트 핸들러
-let isFetching;
+let isFetching = false;
 function handleScroll() {
     const table = document.getElementById('stockTable');
     const tableBottom = table.getBoundingClientRect().bottom;
     const windowBottom = window.innerHeight;
+    console.log("3-1")
     if (tableBottom <= windowBottom) {
         // 테이블의 하단이 화면의 하단에 도달하면 데이터를 추가로 로드
         if (!isFetching) {
+            console.log("3-2")
             isFetching = true;
             fetchMoreData()
                 .then(data => {
