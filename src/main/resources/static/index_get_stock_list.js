@@ -69,39 +69,25 @@ function fetchMoreData() {
     }
 
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            fetchData(MORE_STOCK_API_URL)
-                .then(data => {
-                    createTableFromJSON(data);
-                    resolve();
-                })
-                .catch(error => {
-                    console.error('Failed to fetch more data:', error);
-                    reject()
-                });
-        }, 1000); // 1초 후 데이터를 반환 (실제로는 서버에서 비동기로 데이터를 가져와야 함)
+        fetchData(MORE_STOCK_API_URL)
+            .then(data => {
+                createTableFromJSON(data);
+                resolve();
+            })
+            .catch(error => {
+                console.error('Failed to fetch more data:', error);
+                reject()
+            });
     });
 }
 
 // 디바운스 함수 구현
 function debounce(func, delay) {
     let timer;
-    let isFirstCall = true;
-
-    console.log("1");
     return function () {
-        console.log("2")
-        if (isFirstCall) {
-            console.log("3")
-            func.apply(this, arguments);
-            isFirstCall = false;
-        } else {
-            console.log("4")
-            clearTimeout(timer);
-        }
-        console.log("5")
+        clearTimeout(timer);
         timer = setTimeout(() => {
-            isFirstCall = true;
+            func.apply(this, arguments);
         }, delay);
     };
 }
@@ -112,17 +98,17 @@ function handleScroll() {
     const table = document.getElementById('stockTable');
     const tableBottom = table.getBoundingClientRect().bottom;
     const windowBottom = window.innerHeight;
-    console.log("3-1")
     if (tableBottom <= windowBottom) {
         // 테이블의 하단이 화면의 하단에 도달하면 데이터를 추가로 로드
         if (!isFetching) {
-            console.log("3-2")
             isFetching = true;
             fetchMoreData()
                 .then(data => {
                     // 가져온 데이터를 테이블에 동적으로 추가
-                    const tbody = table.querySelector('tbody');
-                    data.forEach(item => addNewRowToTable(item, tbody));
+                    if (data) {
+                        const tbody = table.querySelector('tbody');
+                        data.forEach(item => addNewRowToTable(item, tbody));
+                    }
                     isFetching = false;
                 })
                 .catch(error => {
