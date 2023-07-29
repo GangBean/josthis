@@ -4,6 +4,7 @@ import com.gangbean.josthis.exception.StockNotContainsInitialStateHistoryExcepti
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,7 @@ class StockTest {
 
     @DisplayName("주식코드, 주식명, josthisScore는 변경이 있어도 반영되지 않고, 이력 또한 생성하지 않습니다.")
     @Test
-    void merge_with_not_updatable() {
+    void merge_with_not_updatable() throws IOException {
         // given
         Stock stock = new Stock.StockBuilder()
                 .tickerCode("00000000000001")
@@ -82,7 +83,7 @@ class StockTest {
 
     @DisplayName("price, per, eps, 배당금, 상장주식수, 컨센서스, 비정상상태에 변경이 있으면 새로운 이력과 함께 반영 합니다.")
     @Test
-    void mergeWithUpdatable() {
+    void mergeWithUpdatable() throws IOException {
         // given
         Stock stock = new Stock.StockBuilder()
                 .tickerCode("00000000000001")

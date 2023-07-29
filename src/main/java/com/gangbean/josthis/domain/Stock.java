@@ -1,5 +1,6 @@
 package com.gangbean.josthis.domain;
 
+import com.gangbean.josthis.exception.FetchStockNotFoundException;
 import com.gangbean.josthis.exception.StockNotContainsInitialStateHistoryException;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
@@ -19,7 +21,7 @@ public class Stock extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Length(min = 14, max = 14)
+    @Length(min = 12, max = 12)
     @Column(unique = true, nullable = false, updatable = false)
     private String tickerCode;
 
@@ -93,9 +95,17 @@ public class Stock extends BaseEntity {
         return histories;
     }
 
-    public Stock update(StockFetchSource source) {
-        this.merge(source.fetch(tickerCode));
+    public Stock update(StockFetchSource source) throws IOException {
+        Stock fetch = source.fetch(compressedTickerCode());
+        if (fetch == null) {
+            throw new FetchStockNotFoundException("주식코드에 해당하는 정보를 찾지 못했습니다: " + tickerCode);
+        }
+        this.merge(fetch);
         return this;
+    }
+
+    private String compressedTickerCode() {
+        return this.tickerCode.substring(3, 9);
     }
 
     private void merge(Stock updatableStock) {

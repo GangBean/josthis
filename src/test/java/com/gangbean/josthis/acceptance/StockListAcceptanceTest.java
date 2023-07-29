@@ -69,8 +69,8 @@ public class StockListAcceptanceTest {
         final String url = "/api/stocks";
 
         // and
-        final BigDecimal prevConsensusScore = new BigDecimal("1.2");
-        final Long previousId = 1L;
+        final BigDecimal prevConsensusScore = new BigDecimal("1.3");
+        final Long previousId = 6L;
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()

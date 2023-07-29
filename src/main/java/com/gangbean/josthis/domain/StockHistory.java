@@ -48,6 +48,17 @@ public class StockHistory extends BaseEntity {
     @Embedded
     private JosthisScore josthisScore;
 
+    public StockHistory(BigDecimal price, BigDecimal per, BigDecimal eps, BigDecimal dividend, BigDecimal listedVolume, Set<BadStockStatus> badStatus, Consensus consensus, JosthisScore josthisScore) {
+        this.price = price;
+        this.per = per;
+        this.eps = eps;
+        this.dividend = dividend;
+        this.listedVolume = listedVolume;
+        this.badStatus = badStatus;
+        this.consensus = consensus;
+        this.josthisScore = josthisScore;
+    }
+
     public static StockHistory of(Stock stock) {
         return new StockHistoryBuilder()
                 .price(stock.getPrice())
