@@ -1,33 +1,40 @@
 package com.gangbean.josthis.controller;
 
-import com.gangbean.josthis.dto.StockListResponse;
 import com.gangbean.josthis.service.StockService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.net.URI;
+import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/stocks")
 public class StockController {
 
-    public static final String HEADER_END_SCORE = "EndScore";
-    public static final String HEADER_END_ID = "EndId";
     private final StockService stockService;
 
-    public StockController(StockService stockService) {
-        this.stockService = stockService;
+    @PostMapping("/new")
+    public ResponseEntity<StockForm> registerNewStock(@RequestBody StockForm form) {
+        Long registeredId = stockService.register(form);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(String.format("/stocks/%d", registeredId)));
+        return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
     }
 
-    @GetMapping("/stocks")
-    public ResponseEntity<StockListResponse> getStockList(
-            @RequestParam(value = "lastScore", required = false) BigDecimal endScore,
-            @RequestParam(value = "lastId", required = false) Long endId) {
-        StockListResponse allStocks = stockService.allStocks(endScore, endId);
+    @GetMapping("/{stockId}")
+    public ResponseEntity<List<StockTradeForm>> tradesOfStock(@PathVariable Long stockId) {
+        return ResponseEntity.ok(stockService.tradesOfStockId(stockId));
+    }
 
-        return ResponseEntity.ok(allStocks);
+    @PostMapping("/{stockId}/trades/new")
+    public ResponseEntity<StockTradeForm> writeNewTrade(@PathVariable Long stockId, @RequestBody StockTradeForm form) {
+        stockService.write(stockId, form);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(String.format("/stocks/%d", stockId)));
+        return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
     }
 }
