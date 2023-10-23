@@ -41,8 +41,12 @@ public class Stock {
     @Enumerated(EnumType.STRING)
     private StockStatus status;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "logo_id")
+    private Logo logo;
+
     @Builder
-    public Stock(String name, String code, BigDecimal price, BigDecimal marketCap, BigDecimal issuedAmount, BigDecimal eps, BigDecimal per, StockStatus status) {
+    public Stock(String name, String code, BigDecimal price, BigDecimal marketCap, BigDecimal issuedAmount, BigDecimal eps, BigDecimal per, StockStatus status, Logo logo) {
         this.name = name;
         this.code = code;
         this.price = price;
@@ -51,5 +55,6 @@ public class Stock {
         this.eps = eps;
         this.per = per;
         this.status = status;
+        this.logo = logo;
     }
 }

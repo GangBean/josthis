@@ -11,8 +11,9 @@ import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000") // 요청을 허용할 도메인을 설정
 @RestController
-@RequestMapping("/stocks")
+@RequestMapping("/api/stocks")
 public class StockController {
 
     private final StockService stockService;
@@ -21,7 +22,7 @@ public class StockController {
     public ResponseEntity<StockForm> registerNewStock(@RequestBody StockForm form) {
         Long registeredId = stockService.register(form);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(String.format("/stocks/%d", registeredId)));
+        headers.setLocation(URI.create(String.format("/api/stocks/%d", registeredId)));
         return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
     }
 
@@ -34,7 +35,12 @@ public class StockController {
     public ResponseEntity<StockTradeForm> writeNewTrade(@PathVariable Long stockId, @RequestBody StockTradeForm form) {
         stockService.write(stockId, form);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(String.format("/stocks/%d", stockId)));
+        headers.setLocation(URI.create(String.format("/api/stocks/%d", stockId)));
         return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StockForm>> stocks() {
+        return ResponseEntity.ok(stockService.listOfStocks());
     }
 }

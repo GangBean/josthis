@@ -88,3 +88,65 @@ body {
 .game-info {
     margin-left: 20px;
 }
+
+.stockItem {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.stockItem img {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+.stockItem .info {
+    display: flex;
+    margin-right: 10px;
+}
+
+.stockItem .info > div {
+    margin: 5px 5px;
+}
+
+.stockItem .info .name {
+    font-weight: bold;
+}
+
+.stockItem .info .code::before {
+    content: "Code: ";
+    font-weight: bold;
+}
+
+.stockItem .info .price::before {
+    content: "Price: ";
+    font-weight: bold;
+}
+
+.stockItem .info .marketCap::before {
+    content: "marketCap: ";
+    font-weight: bold;
+}
+
+.stockItem .info .issuedAmount::before {
+    content: "issuedAmount: ";
+    font-weight: bold;
+}
+
+.stockItem .info .eps::before {
+    content: "eps: ";
+    font-weight: bold;
+}
+
+.stockItem .info .per::before {
+    content: "per: ";
+    font-weight: bold;
+}
+
+.stockItem .info .status::before {
+    content: "status: ";
+    font-weight: bold;
+}
+
+
+

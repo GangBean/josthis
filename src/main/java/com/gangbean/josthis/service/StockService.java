@@ -2,6 +2,7 @@ package com.gangbean.josthis.service;
 
 import com.gangbean.josthis.controller.StockForm;
 import com.gangbean.josthis.controller.StockTradeForm;
+import com.gangbean.josthis.domain.stock.Logo;
 import com.gangbean.josthis.domain.stock.Stock;
 import com.gangbean.josthis.domain.stock.StockStatus;
 import com.gangbean.josthis.domain.stock.StockTrade;
@@ -32,6 +33,7 @@ public class StockService {
                         .marketCap(form.getMarketCap())
                         .per(form.getPer())
                         .status(StockStatus.ACTIVE)
+                        .logo(Logo.builder().url(form.getLogoUrl()).build())
                 .build());
     }
 

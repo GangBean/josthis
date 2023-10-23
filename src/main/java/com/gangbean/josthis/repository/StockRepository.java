@@ -13,6 +13,7 @@ public class StockRepository {
     private final EntityManager em;
 
     public Long save(Stock stock) {
+        em.persist(stock.getLogo());
         em.persist(stock);
         return stock.getId();
     }
@@ -22,7 +23,7 @@ public class StockRepository {
     }
 
     public List<Stock> findAll() {
-        return em.createQuery("select s from Stock s", Stock.class)
+        return em.createQuery("select s from Stock s join fetch s.logo l", Stock.class)
                 .getResultList();
     }
 }

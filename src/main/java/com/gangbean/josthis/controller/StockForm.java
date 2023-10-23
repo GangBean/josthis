@@ -23,6 +23,7 @@ public class StockForm {
     private BigDecimal eps;
     private BigDecimal per;
     private StockStatus status;
+    private String logoUrl;
 
     public static StockForm formFrom(Stock stock) {
         return StockForm.builder()
@@ -35,6 +36,7 @@ public class StockForm {
                 .eps(stock.getEps())
                 .per(stock.getPer())
                 .status(stock.getStatus())
+                .logoUrl(stock.getLogo().getUrl())
                 .build();
     }
 }
