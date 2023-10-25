@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import StockList from "./StockList";
 import Header from "./Header";
 import Footer from "./Footer";
-import { StockItemProp } from "./StockItem";
+import {CardProps} from "../components/cards/Card";
+import Main from "./Main";
 
 export default function App() {
-    const [stocks, setStocks] = useState<StockItemProp[]>([]);
+    const [cards, setCards] = useState<CardProps[]>([]);
 
     useEffect(() => {
         // 데이터를 가져와서 상태 업데이트
         fetch("http://localhost:8080/api/stocks")
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setStocks(data);
+            .then((card) => {
+                console.log(card);
+                setCards(card);
             })
             .catch((error) => {
                 console.error("Error 발생", error);
@@ -22,10 +22,14 @@ export default function App() {
 
     return (
         <>
-            <title>Josthis</title>
+            <head>
+                <title>Josthis</title>
+            </head>
+            <body>
             <Header />
-            <StockList stocks={stocks} />
+            <Main cards={cards} />
             <Footer />
+            </body>
         </>
     );
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>웹 페이지 배너 예시</title>
+    <style>
+         .banner {
+             display: flex;
+         }
+
+        .nav-container {
+            display: flex;]
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .nav-container ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column; /* 아래로 세로로 배열되도록 설정 */
+            align-items: center; /* 가운데 정렬 */
+
+            /* 랭킹 섹션을 가로로 배치 */
+            .rank_section_1,
+            .rank_section_2 {
+                display: inline-block; /* 인라인 레벨로 배치 */
+                margin-right: 20px; /* 랭킹 사이의 간격 조절 */
+            }
+
+            .cards_section {
+                display: flex;
+                flex-direction: column; /* 카드들을 세로로 배열 */
+                align-items: center; /* 가운데 정렬 */
+            }
+
+            .cards {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .card {
+                width: 100px;
+                height: 100px;
+                background-color: #ccc;
+                margin-bottom: 10px; /* 카드 사이의 간격 조절 */
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="banner">
+    <div class="nav-container">
+        <div>
+            <img src="left-image.jpg" alt="로고 이미지">
+        </div>
+        <ul>
+            <li>메뉴 1</li>
+            <li>메뉴 2</li>
+            <li>메뉴 3</li>
+            <li>메뉴 4</li>
+            <li>
+                <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                    <image x="0" y="0" width="50" height="50" xlink:href="your-image.png" />
+                </svg>
+            </li>
+        </ul>
+    </div>
+</header>
+<main>
+    <div class="rank_section_1">
+        <img src="" alt="랭킹 #1">
+    </div>
+    <div class="rank_section_2">
+        <img src="" alt="랭킹 #2">
+    </div>
+    <div class="cards_section">
+        <ol class="cards">
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+            <li class="card"></li>
+        </ol>
+    </div>
+</main>
+<!-- 나머지 웹 페이지 내용 -->
+</body>
+</html>

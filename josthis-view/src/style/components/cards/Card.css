@@ -1,0 +1,6 @@
+.card {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    margin-bottom: 10px; /* 카드 사이의 간격 조절 */
+}

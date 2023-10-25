@@ -1,0 +1,11 @@
+.cards_section {
+    display: flex;
+    flex-direction: column; /* 카드들을 세로로 배열 */
+    align-items: center; /* 가운데 정렬 */
+}
+
+.cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
