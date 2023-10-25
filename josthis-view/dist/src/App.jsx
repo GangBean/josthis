@@ -1,72 +1,56 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = require("react");
-function Game() {
-    const [isXTurn, setXTurn] = (0, react_1.useState)(true);
-    const [history, setHistory] = (0, react_1.useState)(Array(9).fill(null));
-    const currentSquares = history[history.length - 1];
-    function handlePlay(nextSquares) {
-        setXTurn(!isXTurn);
-        setHistory([...history, nextSquares]);
-    }
-    return (<div className="game">
-            <div className="game-board">
-                <Board isXTurn={isXTurn} squares={currentSquares} onPlay={handlePlay}/>
-            </div>
-            <div className="game-info">
-
-            </div>
-        </div>);
-}
-exports.default = Game;
-function Board({ isXTurn, squares, onPlay }) {
-    const winner = calculateWinner(squares);
-    const status = (winner) ? "Winner: " + winner : "Next Player: " + ((isXTurn) ? 'X' : 'O');
-    function handleClick(i) {
-        if (squares[i] || winner)
-            return;
-        const nextSquare = squares.slice();
-        nextSquare[i] = isXTurn ? 'X' : 'O';
-        onPlay(nextSquare);
-    }
+const react_1 = __importStar(require("react"));
+const StockList_1 = __importDefault(require("./StockList"));
+const Header_1 = __importDefault(require("./Header"));
+const Footer_1 = __importDefault(require("./Footer"));
+function App() {
+    const [stocks, setStocks] = (0, react_1.useState)([]);
+    (0, react_1.useEffect)(() => {
+        // 데이터를 가져와서 상태 업데이트
+        fetch("http://localhost:8080/api/stocks")
+            .then((response) => response.json())
+            .then((data) => {
+            console.log(data);
+            setStocks(data);
+        })
+            .catch((error) => {
+            console.error("Error 발생", error);
+        });
+    }, []);
     return (<>
-            <div className="status">{status}</div>
-            <div className="board-row">
-                <Square value={squares[0]} onSquareClick={() => handleClick(0)}/>
-                <Square value={squares[1]} onSquareClick={() => handleClick(1)}/>
-                <Square value={squares[2]} onSquareClick={() => handleClick(2)}/>
-            </div>
-            <div className="board-row">
-                <Square value={squares[3]} onSquareClick={() => handleClick(3)}/>
-                <Square value={squares[4]} onSquareClick={() => handleClick(4)}/>
-                <Square value={squares[5]} onSquareClick={() => handleClick(5)}/>
-            </div>
-            <div className="board-row">
-                <Square value={squares[6]} onSquareClick={() => handleClick(6)}/>
-                <Square value={squares[7]} onSquareClick={() => handleClick(7)}/>
-                <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
-            </div>
+            <head>Josthis</head>
+            <body>
+            <Header_1.default />
+            <StockList_1.default stocks={stocks}/>
+            <Footer_1.default />
+            </body>
         </>);
 }
-function Square({ value, onSquareClick }) {
-    return <button className="square" onClick={onSquareClick}>{value}</button>;
-}
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
+exports.default = App;

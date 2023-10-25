@@ -22,12 +22,10 @@ export default function App() {
 
     return (
         <>
-            <head>Josthis</head>
-            <body>
+            <title>Josthis</title>
             <Header />
             <StockList stocks={stocks} />
             <Footer />
-            </body>
         </>
     );
 }
